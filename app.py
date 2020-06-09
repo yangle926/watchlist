@@ -53,9 +53,16 @@ class Movie(db.Model): # 表 movie
     title = db.Column(db.String(60))
     year = db.Column(db.String(4))
     
+@app.context_processor
+def inject_user():
+    user = User.query.first()
+    return dict(user=user)
+    
 @app.route('/')
 def index():
-    user = User.query.first()
     movies = Movie.query.all()
-    return render_template('index.html', user=user, movies=movies)
+    return render_template('index.html', movies=movies)
 
+@app.errorhandler(404)
+def page_no_found(e):
+    return render_template('404.html'), 404

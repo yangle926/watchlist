@@ -1,24 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>{{ user.name }}'s Watchlist</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-</head>
-<body>
-    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
-    <h2><img alt="Avatar" class="avatar" src="{{ url_for('static', filename='images/avatar.png') }}">
-    {{ user.name }}'s Watchlist</h2>
-    {# 使用length过滤器获取movies变量的长度 #}
-    <p>{{ movies|length }} Titles</p>
-    <ul class="movie-list">
-        {% for movie in movies %} {# 迭代movies变量 #}
-        <li>{{ movie.title }} - {{ movie.year }}</li> {# 等同于movie['title'] #}
-        {% endfor %} {# 使用endfor标签结束for语句 #}
-    </ul>
-    <img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}">
-    <footer>
-        <small>&copy; 2018 <a href="http://helloflask.com/tutorial">HelloFlask</a></small>
-    </footer>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{ movies|length }} Titles</p>
+<ul class="movie-list">
+	{% for movie in movies %}
+    <li>{{ movie.title }} - {{ movie.year }}
+    	<span class="float-right">
+        	<a class="imdb" href="https://www.imdb.com/find?q={{ movie.title }}" target="_blank" title="Find this movie on IMDB">IMDB</a>
+        </span>
+    </li>
+    {% endfor %}
+</ul>
+<img alt="Walking Totoro" class="totoro" src="{{ url_for('static', filename='images/totoro.gif') }}" title="to~to~ro">
+{% endblock %}
