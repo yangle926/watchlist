@@ -19,6 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = prefix + os.path.join(app.root_path, 'da
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # 关闭对模型修改的监控
 app.config['SECRET_KEY'] = 'dev' # 等同于 app.secret_key = 'dev'
 db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 
 @app.cli.command()
 @click.option('--drop', is_flag=True, help='Create after drop.')
@@ -119,6 +120,8 @@ def index():
     user = User.query.first()
     movies = Movie.query.all()
     return render_template('index.html', user=user, movies=movies)
+    
+login_manager.login_view = 'login' 
     
 @app.route('/movie/edit/<int:movie_id>',methods=['GET','POST'])
 @login_required
